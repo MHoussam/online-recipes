@@ -1,7 +1,7 @@
 import React from "react";
 import '../../../styles/navbar.css';
 
-const Image = ({ src, alt, className }) => {
+const Image = ({ src, alt, className=null }) => {
 //   const clickHandler = () => {
 //     onClick();
 //   };
