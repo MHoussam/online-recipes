@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('cuisine');
             $table->string('ingredients');
-            $table->string('image_id')->nullable();
+            $table->string('image_url');
             $table->timestamps();
         });
 
