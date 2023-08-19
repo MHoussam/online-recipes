@@ -9,13 +9,19 @@ use App\Models\User;
 class AuthController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('auth:api', ['except' => ['login','register']]);
+    // public function __construct()
+    // {
+    //     $this->middleware('auth:api', ['except' => ['login','register']]);
+    // }
+
+    public function unauthorized() {
+        return response()->json([
+            'status' => 'Error',
+            'message' => 'Unauthorized',
+        ], 200);
     }
 
-    public function login(Request $request)
-    {
+    public function login(Request $request) {
         $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
@@ -37,10 +43,9 @@ class AuthController extends Controller
             'status' => 'Success',
             'data' => $user
         ]);
-
     }
 
-    public function register(Request $request){
+    public function register(Request $request) {
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -64,8 +69,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function logout()
-    {
+    public function logout() {
         Auth::logout();
         return response()->json([
             'status' => 'success',
@@ -73,16 +77,13 @@ class AuthController extends Controller
         ]);
     }
 
-    public function refresh()
-    {
+    public function refresh() {
+        $user = Auth::user();
+        $user->token = Auth::refresh();
+
         return response()->json([
             'status' => 'success',
-            'user' => Auth::user(),
-            'authorization' => [
-                'token' => Auth::refresh(),
-                'type' => 'bearer',
-            ]
+            'data' => $user
         ]);
     }
-
 }

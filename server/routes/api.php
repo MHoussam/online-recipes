@@ -19,9 +19,9 @@ Route::group(["middleware" => "auth:api"], function(){
 });
 
 Route::group(["prefix" => "guest"], function(){
-    //catch api for unauthorized users
+
     Route::get("unauthorized", [AuthController::class, "unauthorized"])->name("unauthorized");
-    //login & signup 
+
     Route::post("login", [AuthController::class, "login"]);
     Route::post("register", [AuthController::class, "register"]);
 });
