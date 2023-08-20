@@ -40,5 +40,9 @@
   }
 
   .like-btn:hover {
-    background-color: #e2e2e2;
+    background-color: rgb(252, 114, 114);
+  }
+
+  .red {
+    background-color: rgb(252, 114, 114);
   }
