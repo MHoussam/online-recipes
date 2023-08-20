@@ -17,8 +17,8 @@ Route::group(["middleware" => "auth:api"], function(){
     Route::post("like", [UserController::class, "likeRecipes"]);
     Route::post("liked", [UserController::class, "checkLikes"]);
     Route::post("shopping", [UserController::class, "addShoppingList"]);
-    Route::post("shoppingList", [UserController::class, "getShoppingList"]);
-    Route::post("displayShopping", [UserController::class, "getShoppings"]);
+    //Route::post("shoppingList", [UserController::class, "getShoppingList"]);
+    Route::post("getShoppings", [UserController::class, "getShoppings"]);
 });
 
 Route::get("unauthorized", [AuthController::class, "unauthorized"])->name("unauthorized");

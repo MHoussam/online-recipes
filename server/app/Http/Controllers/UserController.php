@@ -45,13 +45,13 @@ class UserController extends Controller
 
             Recipe::where('id', $recipe_id)->increment('likes');
     
-            return response()->json('Liked');
+            return response()->json(['data'=> $likes, 'message'=> 'Liked']);
         } else {
             $likeNB[0]->delete();
 
             Recipe::where('id', $recipe_id)->decrement('likes');
     
-            return response()->json('Unliked');
+            return response()->json(['message'=> 'Unliked']);
         }
     }
 
@@ -75,11 +75,11 @@ class UserController extends Controller
             $shoppinglist->user_id = $user_id;
             $shoppinglist->save();
     
-            return response()->json('Added');
+            return response()->json(['data'=> $shoppinglist, 'message'=> 'Added']);
         } else {
             $shoppingNB[0]->delete();
     
-            return response()->json('Removed');
+            return response()->json(['message'=> 'Removed']);
         }
     }
 
