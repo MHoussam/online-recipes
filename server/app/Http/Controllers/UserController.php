@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Recipe;
 use App\Models\Like;
 use App\Models\Shopping;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -14,6 +16,20 @@ class UserController extends Controller
 
         return response()->json($recipes);
     }
+
+    // Route::get('displayContacts/{contact_id?}', [WhereController::class, 'displayContacts']);
+
+    // public function displayContacts ($contact_id = null) {
+        
+    //     if (!is_null($contact_id)) {
+    //         $contacts = Contact::where('id', $contact_id)->get();
+    //     } 
+    //     else {
+    //         $contacts = Contact::all();
+    //     }
+
+    //     return response()->json($contacts);
+    // }
 
     public function likeRecipes(Request $request) {
         $recipe_id = $request->recipeId;
@@ -67,11 +83,12 @@ class UserController extends Controller
         }
     }
 
-    public function getShoppingList(Request $request) {
-        $user_id = $request->userId;
+    public function getShoppings()
+    {
+        $user = Auth::user()->id;
         
-        $shopping = Shopping::where('user_id', $user_id)->get();
-
-        return response()->json($shopping);
-    }
+        $shoppings = Shopping::where('user_id', $user)->with('Recipe')->get();
+    
+        return response()->json($shoppings);
+    }    
 }
