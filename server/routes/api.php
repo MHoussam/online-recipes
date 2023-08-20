@@ -15,6 +15,7 @@ Route::group(["middleware" => "auth:api"], function(){
 
     Route::post("all", [UserController::class, "getRecipes"]);
     Route::post("like", [UserController::class, "likeRecipes"]);
+    Route::post("liked", [UserController::class, "checkLikes"]);
     // Route::get("stays/{id?}", [StayController::class, "getStays"]);
     // Route::get("bookings", [UserController::class, "getBookings"]);
     // Route::get("user_stays", [UserController::class, "getStays"]);

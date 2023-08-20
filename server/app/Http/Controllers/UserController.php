@@ -28,13 +28,21 @@ class UserController extends Controller
 
             Recipe::where('id', $recipe_id)->increment('likes');
     
-            return response()->json('Unlike');
+            return response()->json('Liked');
         } else {
             $likeNB[0]->delete();
 
             Recipe::where('id', $recipe_id)->decrement('likes');
     
-            return response()->json('Like');
+            return response()->json('Unliked');
         }
+    }
+
+    public function checkLikes(Request $request) {
+        $liker_id = $request->userId;
+        
+        $liked = Like::where('liker_id', $liker_id)->get();
+
+        return response()->json($liked);
     }
 }
