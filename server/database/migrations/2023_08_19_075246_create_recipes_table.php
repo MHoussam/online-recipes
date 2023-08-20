@@ -42,13 +42,6 @@ return new class extends Migration
             $table->string('comment');
             $table->timestamps();
         });
-
-        Schema::create('shoppinglists', function (Blueprint $table) {
-            $table->id();
-            $table->integer('recipe_id');
-            $table->integer('user_id');
-            $table->timestamps();
-        });
     }
 
     /**

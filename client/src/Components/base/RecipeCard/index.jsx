@@ -108,6 +108,7 @@ const RecipeCard = () => {
   const handleShoppingList = async (recipeId) => {
     try{
       const data = { token: token, recipeId: recipeId, userId: userId };
+      console.log(data)
       const response = await axios.post("http://127.0.0.1:8000/api/shopping", data);
 
       if(response.data === 'Added') {

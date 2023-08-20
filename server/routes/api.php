@@ -16,13 +16,10 @@ Route::group(["middleware" => "auth:api"], function(){
     Route::post("all", [UserController::class, "getRecipes"]);
     Route::post("like", [UserController::class, "likeRecipes"]);
     Route::post("liked", [UserController::class, "checkLikes"]);
-    // Route::get("stays/{id?}", [StayController::class, "getStays"]);
-    // Route::get("bookings", [UserController::class, "getBookings"]);
-    // Route::get("user_stays", [UserController::class, "getStays"]);
-
+    Route::post("shopping", [UserController::class, "addShoppingList"]);
+    Route::post("shoppingList", [UserController::class, "getShoppingList"]);
 });
 
 Route::get("unauthorized", [AuthController::class, "unauthorized"])->name("unauthorized");
-
 Route::post("login", [AuthController::class, "login"]);
 Route::post("register", [AuthController::class, "register"]);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Recipe;
 use App\Models\Like;
+use App\Models\Shopping;
 
 class UserController extends Controller
 {
@@ -44,5 +45,33 @@ class UserController extends Controller
         $liked = Like::where('liker_id', $liker_id)->get();
 
         return response()->json($liked);
+    }
+
+    public function AddShoppingList(Request $request) {
+        $user_id = $request->userId;
+        $recipe_id = $request->recipeId;
+        
+        $shoppingNB = Shopping::added($user_id , $recipe_id)->get();
+
+        if($shoppingNB->count() == 0){
+            $shoppinglist = new Shopping;            
+            $shoppinglist->recipe_id = $recipe_id;
+            $shoppinglist->user_id = $user_id;
+            $shoppinglist->save();
+    
+            return response()->json('Added');
+        } else {
+            $shoppingNB[0]->delete();
+    
+            return response()->json('Removed');
+        }
+    }
+
+    public function getShoppingList(Request $request) {
+        $user_id = $request->userId;
+        
+        $shopping = Shopping::where('user_id', $user_id)->get();
+
+        return response()->json($shopping);
     }
 }
