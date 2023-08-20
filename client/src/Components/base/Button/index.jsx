@@ -1,12 +1,12 @@
 import React from "react";
 
-const Button = ({ text, onClick }) => {
+const Button = ({ text, onClick=null, className=null }) => {
   const clickHandler = () => {
     onClick();
   };
 
   return (
-    <button className="button pointer bold" onClick={clickHandler} >
+    <button className={className} onClick={clickHandler} >
       {text}
     </button>
   );

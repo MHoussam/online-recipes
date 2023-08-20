@@ -19,9 +19,9 @@ const LoginForm = ({setUser}) =>{
     try{
       const response = await axios.post("http://localhost:8000/api/login", data)
       console.log(response.data)
-      localStorage.setItem('id', response.data.id)
-      localStorage.setItem('name', response.data.name)      
-      localStorage.setItem('token', response.data.token)
+      localStorage.setItem('id', response.data.data.id)
+      localStorage.setItem('first_name', response.data.data.first_name)      
+      localStorage.setItem('token', response.data.data.token)
       setData({email: '', password: ''})
       if(response.data.token !== null) {
         navigate("/Home");

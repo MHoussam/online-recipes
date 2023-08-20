@@ -27,7 +27,7 @@ const NavBar = () => {
             </div>
 
             <div className="logout-btn flex center">
-                <Button text={'Logout'} onClick={handleLogout} />
+                <Button text={'Logout'} onClick={handleLogout} className={"button pointer bold"} />
             </div>
         </div>
     </div>
