@@ -7,6 +7,7 @@ import Button from "../Button";
 const RecipeCard = () => {
   const [recipes, setRecipes] = useState([]);
   const [likedRecipes, setLikedRecipes] = useState([]);
+  const [shoppingList, setShoppingList] = useState([]);
   const [likesColor, setLikesColor] = useState('like-btn pointer bold round');
   //const [like, setLike] = useState("Like");
   const token = localStorage.getItem("token");
@@ -54,20 +55,28 @@ const RecipeCard = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+  }
 
+  const fetchShoppingList = async () => {
+    try {
+      const data = { token: token, userId: userId};
+      const check = localStorage.getItem('shoppingList');
+      console.log(check)
+      if(check) {
+        setShoppingList(JSON.parse(check));
+        console.log('hhhhhello')
+      } else {
+        const response = await axios.post("http://127.0.0.1:8000/api/shoppingList", data);
+        const allData = response.data;
 
-
-
-    // setLikedRecipes = [...likedRecipes];
-
-    // if (action === "like") {
-    //   updatedLikedRecipes.push(recipeId);
-    // } else {
-    //   updatedLikedRecipes = updatedLikedRecipes.filter((id) => id !== recipeId);
-    // }
-
-    // localStorage.setItem("likedRecipes", JSON.stringify(updatedLikedRecipes));
-    // setLikedRecipes(updatedLikedRecipes);
+        localStorage.setItem('shoppingList', JSON.stringify(allData));
+        setShoppingList(allData);
+        console.log(allData);
+        console.log('fffffetched');
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   }
 
   const handleLike = async (recipeId) => {
@@ -77,10 +86,12 @@ const RecipeCard = () => {
 
       if(response.data === 'Liked') {
         const updatedLikedRecipes = [...likedRecipes, { recipe_id: recipeId }];
+        console.log(likedRecipes)
         localStorage.setItem("likes", JSON.stringify(updatedLikedRecipes));
         setLikedRecipes(updatedLikedRecipes);
         console.log('add')
       } else {
+        console.log(likedRecipes)
         const updatedLikedRecipes = likedRecipes.filter((likedRecipe) => likedRecipe.recipe_id !== recipeId);
         localStorage.setItem("likes", JSON.stringify(updatedLikedRecipes));
         setLikedRecipes(updatedLikedRecipes);
@@ -94,35 +105,40 @@ const RecipeCard = () => {
     console.log(likedRecipes)
   }
 
-  useEffect(() => {
-    
-    // setRecipes([]);
-    // setLikedRecipes([])
+  const handleShoppingList = async (recipeId) => {
+    try{
+      const data = { token: token, recipeId: recipeId, userId: userId };
+      const response = await axios.post("http://127.0.0.1:8000/api/shopping", data);
 
-    // const fetchData = async () => {
-    //   try {
-    //     const recipesData = await axios.post("http://127.0.0.1:8000/api/all", { token });
-    //     const likedRecipesData = await axios.post("http://127.0.0.1:8000/api/liked", { token, userId });
-  
-    //     localStorage.setItem('recipes', JSON.stringify(recipesData.data));
-    //     localStorage.setItem('likes', JSON.stringify(likedRecipesData.data));
-  
-    //     setRecipes(recipesData.data);
-    //     setLikedRecipes(likedRecipesData.data);
-    //     console.log('start')
-    //     console.log(recipes)
-    //     console.log(likedRecipes)
-    //   } catch (error) {
-    //     console.error("Error fetching data:", error);
-    //   }
-    // };
-  
+      if(response.data === 'Added') {
+        const updatedShoppingList = [...shoppingList, { recipe_id: recipeId }];
+        console.log(shoppingList)
+        localStorage.setItem("shoppingList", JSON.stringify(updatedShoppingList));
+        setLikedRecipes(updatedShoppingList);
+        console.log('add')
+      } else {
+        console.log(shoppingList)
+        const updatedShoppingList = shoppingList.filter((shoppingList) => shoppingList.recipe_id !== recipeId);
+        localStorage.setItem("shoppingList", JSON.stringify(updatedShoppingList));
+        setShoppingList(updatedShoppingList);
+        console.log('remove')
+      }
+      console.log(response.data);
+      console.log(shoppingList)
+    } catch(error) {
+      console.log('Error ShoppingList: ' + error);
+    }
+    console.log(shoppingList)
+  }
+
+  useEffect(() => {
     fetchLikes();
     fetchRecipes();
   
     const clearLocalStorageOnExit = (e) => {
       localStorage.removeItem('recipes');
       localStorage.removeItem('likes');
+      localStorage.removeItem('shoppingList');
     };
   
     window.addEventListener('beforeunload', clearLocalStorageOnExit);
@@ -144,7 +160,7 @@ const RecipeCard = () => {
             <h3>{recipe.name}</h3>
           </div>
 
-          <div className="buttons">
+          <div className="buttons flex space-between">
             <div className="like">
               <Button
                 text={likedRecipes.some(likedRecipe => likedRecipe.recipe_id === recipe.id)
@@ -155,6 +171,18 @@ const RecipeCard = () => {
                     : "like-btn pointer bold round"
                 }
                 onClick={() => handleLike(recipe.id)}
+              />
+            </div>
+
+            <div className="shopping">
+            <Button
+                text={'ShoppingList'}
+                className={
+                  shoppingList.some(shoppingList => shoppingList.recipe_id === recipe.id)
+                    ? "like-btn pointer bold round red"
+                    : "like-btn pointer bold round"
+                }
+                onClick={() => handleShoppingList(recipe.id)}
               />
             </div>
           </div>
