@@ -4,7 +4,7 @@ import Image from "../Image";
 import "../../../styles/recipecard.css";
 import Button from "../Button";
 
-const RecipeCardModal = ({ recipe, likedRecipes, shoppingList, handleLike, handleShoppingList }) => {
+const RecipeCardModal = ({ recipe, likedRecipes=null, shoppingList=null, handleLike=null, handleShoppingList=null }) => {
 
   const onClickLike = () => {
     handleLike();
@@ -14,7 +14,8 @@ const RecipeCardModal = ({ recipe, likedRecipes, shoppingList, handleLike, handl
     handleShoppingList();
   }
 
-  console.log(likedRecipes)
+  // console.log('recipe card')
+  // console.log(shoppingList)
   
   return (
     

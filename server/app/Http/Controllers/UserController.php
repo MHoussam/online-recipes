@@ -74,8 +74,12 @@ class UserController extends Controller
             $shoppinglist->recipe_id = $recipe_id;
             $shoppinglist->user_id = $user_id;
             $shoppinglist->save();
+
+            $shoppings = Shopping::where('user_id', $user_id)
+                ->where('recipe_id', $recipe_id)    
+                ->with('Recipe')->get();
     
-            return response()->json(['data'=> $shoppinglist, 'message'=> 'Added']);
+            return response()->json(['data'=> $shoppings, 'message'=> 'Added']);
         } else {
             $shoppingNB[0]->delete();
     
