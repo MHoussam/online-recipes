@@ -39,10 +39,30 @@
     margin-bottom: 4px;
   }
 
-  .like-btn:hover {
+  .like-btn-active:hover, .shopping-btn-active:hover {
+    background-color:  #dadada;
+  }
+  
+  .like-btn-inactive:hover {
     background-color: rgb(252, 114, 114);
   }
 
+  .shopping-btn-inactive:hover {
+    background-color: rgb(185, 210, 255);
+  }
+
+  .like-btn, .shopping-btn {
+    padding: 4px 8px;
+    border-radius: 5px;
+    border-width: 0px;
+    background-color: #c4c4c477;
+    transition: .3s;;
+}
+
   .red {
     background-color: rgb(252, 114, 114);
+  }
+
+  .blue {
+    background-color: rgb(185, 210, 255);
   }

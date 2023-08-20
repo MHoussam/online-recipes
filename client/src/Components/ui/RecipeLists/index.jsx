@@ -1,20 +1,209 @@
-import React from 'react';
-import '../../../styles/recipelists.css';
-import SearchBar from '../SearchBar';
-import RecipeCard from '../../base/RecipeCard';
+import React, { useState, useEffect } from "react";
+import "../../../styles/recipelists.css";
+import SearchBar from "../SearchBar";
+import RecipeCard from "../../base/RecipeCard";
+import axios from "axios";
+import RecipeCartModal from "../../base/CartRecipeModal";
 
-const RecipeLists = () => {
+const RecipeLists = ({ isModalOpen, setIsModalOpen }) => {
+  const [recipes, setRecipes] = useState([]);
+  const [likedRecipes, setLikedRecipes] = useState([]);
+  const [shoppingList, setShoppingList] = useState([]);
+  //const [likesColor, setLikesColor] = useState('like-btn pointer bold round');
+  //const [like, setLike] = useState("Like");
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("id");
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const fetchRecipes = async () => {
+    try {
+      const data = { token: token };
+      const check = localStorage.getItem("recipes");
+
+      if (check) {
+        setRecipes(JSON.parse(check));
+        console.log("hellooooo");
+      } else {
+        const response = await axios.post(
+          "http://127.0.0.1:8000/api/all",
+          data
+        );
+        const allData = response.data;
+
+        localStorage.setItem("recipes", JSON.stringify(allData));
+        setRecipes(allData);
+        console.log(allData);
+        console.log("fetched");
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const fetchLikes = async () => {
+    try {
+      const data = { token: token, userId: userId };
+      const check = localStorage.getItem("likes");
+      console.log(check);
+      if (check) {
+        setLikedRecipes(JSON.parse(check));
+        console.log(likedRecipes);
+      } else {
+        const response = await axios.post(
+          "http://127.0.0.1:8000/api/liked",
+          data
+        );
+        const allData = response.data;
+
+        localStorage.setItem("likes", JSON.stringify(allData));
+        setLikedRecipes(allData);
+        console.log(allData);
+        console.log("fffffetched");
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const fetchShoppingList = async () => {
+    try {
+      const data = { token: token, userId: userId };
+      const check = localStorage.getItem("shoppingList");
+      console.log(check);
+      if (check) {
+        setShoppingList(JSON.parse(check));
+        console.log("hhhhhello");
+      } else {
+        const response = await axios.post(
+          "http://127.0.0.1:8000/api/shoppingList",
+          data
+        );
+        const allData = response.data;
+
+        localStorage.setItem("shoppingList", JSON.stringify(allData));
+        setShoppingList(allData);
+        console.log(allData);
+        console.log("fffffetched");
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const handleLike = async (recipeId) => {
+    try {
+      const data = { token: token, recipeId: recipeId, userId: userId };
+      const response = await axios.post("http://127.0.0.1:8000/api/like", data);
+
+      if (response.data === "Liked") {
+        const updatedLikedRecipes = [...likedRecipes, { recipe_id: recipeId }];
+        console.log(likedRecipes);
+        localStorage.setItem("likes", JSON.stringify(updatedLikedRecipes));
+        setLikedRecipes(updatedLikedRecipes);
+        console.log("add");
+      } else {
+        console.log(likedRecipes);
+        const updatedLikedRecipes = likedRecipes.filter(
+          (likedRecipe) => likedRecipe.recipe_id !== recipeId
+        );
+        localStorage.setItem("likes", JSON.stringify(updatedLikedRecipes));
+        setLikedRecipes(updatedLikedRecipes);
+        console.log("remove");
+      }
+      console.log(response.data);
+      console.log(likedRecipes);
+    } catch (error) {
+      console.log("Error Like: " + error);
+    }
+    console.log(likedRecipes);
+  };
+
+  const handleShoppingList = async (recipeId) => {
+    try {
+      const data = { token: token, recipeId: recipeId, userId: userId };
+      console.log(data);
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/shopping",
+        data
+      );
+
+      if (response.data === "Added") {
+        const updatedShoppingList = [...shoppingList, { recipe_id: recipeId }];
+        console.log(shoppingList);
+        localStorage.setItem(
+          "shoppingList",
+          JSON.stringify(updatedShoppingList)
+        );
+        setShoppingList(updatedShoppingList);
+        console.log("add");
+      } else {
+        console.log(shoppingList);
+        const updatedShoppingList = shoppingList.filter(
+          (shoppingList) => shoppingList.recipe_id !== recipeId
+        );
+        localStorage.setItem(
+          "shoppingList",
+          JSON.stringify(updatedShoppingList)
+        );
+        setShoppingList(updatedShoppingList);
+        console.log("remove");
+      }
+      console.log(response.data);
+      console.log(shoppingList);
+    } catch (error) {
+      console.log("Error ShoppingList: " + error);
+    }
+    console.log(shoppingList);
+  };
+
+  useEffect(() => {
+    fetchLikes();
+    fetchRecipes();
+    fetchShoppingList();
+
+    const clearLocalStorageOnExit = (e) => {
+      localStorage.removeItem("recipes");
+      localStorage.removeItem("likes");
+      localStorage.removeItem("shoppingList");
+    };
+
+    window.addEventListener("beforeunload", clearLocalStorageOnExit);
+
+    return () => {
+      window.removeEventListener("beforeunload", clearLocalStorageOnExit);
+    };
+  }, []);
+
+  console.log(likedRecipes);
+  console.log(recipes);
+
+  console.log("here");
+  console.log(shoppingList);
   return (
-    <div className='content'>
+    <div className="content">
       <div className="search">
         <SearchBar />
       </div>
 
       <div className="recipes">
-        <RecipeCard />
+        <div className="recipe-container">
+          {recipes.map((recipe) => (
+            <RecipeCard
+              recipe={recipe}
+              likedRecipes={likedRecipes}
+              shoppingList={shoppingList}
+              handleLike={() => handleLike(recipe.id)}
+              handleShoppingList={() => handleShoppingList(recipe.id)}
+            />
+          ))}
+          <RecipeCartModal isOpen={isModalOpen} onClose={closeModal} shoppingList={shoppingList} />
+        </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default RecipeLists;

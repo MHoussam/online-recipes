@@ -1,14 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import RecipeLists from '../../Components/ui/RecipeLists';
 import NavBar from '../../Components/ui/NavBar';
 
 const Home = () => {
-    //const [user, setUser] = useState([]);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <div>
-        <NavBar />
-        <RecipeLists />
+        <NavBar setIsModalOpen={setIsModalOpen} />
+        <RecipeLists isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
     </div>
   )
 }
