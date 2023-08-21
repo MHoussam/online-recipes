@@ -212,7 +212,7 @@ const RecipeLists = ({ isModalOpen, setIsModalOpen }) => {
   return (
     <div className="content">
       <div className="search">
-        <SearchBar />
+        <SearchBar recipes={recipes} />
       </div>
 
       <div className="recipes">

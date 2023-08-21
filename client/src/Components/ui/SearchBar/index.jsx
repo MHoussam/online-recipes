@@ -1,107 +1,84 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import '../../../styles/searchbar.css';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "../../../styles/searchbar.css";
+import Image from "../../base/Image";
 
-const SearchBar = ({ users }) => {
-   const [query, setQuery] = useState([]);
-//   const [filteredUsers, setFilteredUsers] = useState([]);
-//   const [showList, setShowList] = useState(false);
-//   const [data, setData] = useState({
-//     following_id: '',
-//     followed_id: '', 
-//     token: ''
-//   })  
+const SearchBar = ({ recipes }) => {
+  const [query, setQuery] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [showList, setShowList] = useState(false);
 
-//   const handleSearch = (query) => {
-//     const filtered = users.filter((user) =>
-//       user.name.toLowerCase().includes(query.toLowerCase())
-//     );
-//     setFilteredUsers(filtered);
-//   };
+  const handleSearch = (query) => {
+    const filtered = recipes.filter(
+      (recipe) =>
+        recipe.name.toLowerCase().includes(query.toLowerCase()) ||
+        recipe.cuisine.toLowerCase().includes(query.toLowerCase()) ||
+        recipe.ingredients.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredUsers(filtered);
+  };
 
-//   const handleClickOutside = (e) => {
-//     if (!e.target.closest('.search-bar')) {
-//       setShowList(false);
-//     }
-//   };
+  const handleClickOutside = (e) => {
+    if (!e.target.closest(".search-bar-input")) {
+      setShowList(false);
+    }
+  };
 
-   const handleInputChange = (e) => {
-//     const newQuery = e.target.value;
-//     setQuery(newQuery);
-//     handleSearch(newQuery);
-//     setShowList(newQuery !== "");
-   };
+  const handleInputChange = (e) => {
+    const newQuery = e.target.value;
+    setQuery(newQuery);
+    handleSearch(newQuery);
+    setShowList(newQuery);
+
+    if (newQuery === "") {
+      setFilteredUsers([]);
+    }
+  };
 
   const handleInputClick = () => {
-//     setShowList(true);
-   };
+    if (filteredUsers.length > 0) {
+      setShowList(true);
+    }
+  };
 
-//   React.useEffect(() => {
-//     document.addEventListener('click', handleClickOutside);
-//     return () => {
-//       document.removeEventListener('click', handleClickOutside);
-//     };
-//   }, []);
-
-//   const handleFollow = async (user_id)=>{
-//     try{
-//       const newData = {
-//         following_id: localStorage.getItem('id'),
-//         followed_id: user_id,
-//         token: localStorage.getItem('token')
-//       };
-  
-//       await setData(newData);
-//       handleFollowData();
-//     }catch(e){
-//       console.log(e)
-//     }
-//   }
-
-//   const [followStatus, setFollowStatus] = useState({});
-
-//   const handleFollowData = async () => {
-//     try {
-
-//       console.log(data);
-//       const response = await axios.post("http://localhost:8000/api/followUsers", data);
-//       console.log(response.data)
-      
-//       const newFollowStatus = { ...followStatus };
-//       newFollowStatus[data.followed_id] = response.data['message'] === 'Unfollowed.' ? 'Follow' : 'Unfollow';
-//       setFollowStatus(newFollowStatus); 
-//     } catch(e) {
-//       console.log(e);
-//     }
-//   }
-
-//   useEffect(() => {
-//     if (data.followed_id) {
-//       handleFollowData();
-//     }
-//   }, [data]);
+  React.useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   return (
-      <div className="search-bar width-00 flex column center">
-        <input type="text" placeholder="Search Recipes" className='search-bar-input width-30' value={query} onChange={handleInputChange} onClick={handleInputClick}/>
-        {/* {showList && (
-          <ul className='search-list flex column'>
-            {filteredUsers.map((user) => (
-              <li>
-                <div className="search-list flex pointer" key={user.id}> 
-                  <div>
-                    {user.name}
+    <div className="search-bar flex column center">
+      <input
+        type="text"
+        placeholder="Search Recipes"
+        className="search-bar-input width-30"
+        value={query}
+        onChange={handleInputChange}
+        onClick={handleInputClick}
+      />
+      {showList && (
+        <div className="search-bar-list width-100 flex column center">
+          <ul className="search-list flex column">
+            {filteredUsers.map((recipe) => (
+              <li key={recipe.id}>
+                <div className="search-list-li flex pointer">
+                  <div className="photo width-20">
+                    <Image
+                      src={`http://localhost:8000/${recipe.image_url}`}
+                      alt={recipe.name}
+                      className={'search-pic'}
+                    />
                   </div>
-
-                  <button className="follow-btn pointer" key={user.id} onClick={() => handleFollow(user.id)}>
-                    {followStatus[user.id] || 'Follow'}
-                  </button>
+                  <div>{recipe.name}</div>
                 </div>
               </li>
             ))}
           </ul>
-        )} */}
-      </div>
+        </div>
+      )}
+    </div>
   );
 };
 
