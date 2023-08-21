@@ -87,12 +87,35 @@ class UserController extends Controller
         }
     }
 
-    public function getShoppings()
-    {
+    public function getShoppings() {
         $user = Auth::user()->id;
         
         $shoppings = Shopping::where('user_id', $user)->with('Recipe')->get();
     
         return response()->json($shoppings);
     }    
+
+    function post(Request $request) {
+        $posts = new Recipe;
+
+        $request->validate([
+            'photo' => 'image|mimes:jpg,png,jpeg|max:5048'
+        ]);
+    
+        if ($request->hasFile('photo')) {
+            $filename = time() . '.' . $request->file('photo')->getClientOriginalExtension();
+            $request->file('photo')->move(public_path('images'), $filename);
+            $posts->photo = 'images/' . $filename;
+        }
+    
+        $posts->publisher_id = $request->user_id;
+        $posts->name = $request->name;
+        $posts->cuisine = $request->cuisine;
+        $posts->ingredients = $request->ingredients;
+        $posts->image_url = $request->image_url;
+        $posts->likes = 0;
+        $posts->save();
+    
+        return response()->json(['message'=> 'Posted', 'data'=> $posts]);
+    }
 }
