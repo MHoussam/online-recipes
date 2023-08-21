@@ -30,7 +30,6 @@ const RecipeCartModal = ({ isOpen, onClose, shoppingList }) => {
                 <h3>{shoppingList.recipe.name}</h3>
               </div>
             </div>
-            {/* <h1>{shoppingList.recipe.name}</h1> */}
           </div>
         ))}
       </div>

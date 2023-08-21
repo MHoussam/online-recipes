@@ -4,11 +4,14 @@ import SearchBar from "../SearchBar";
 import RecipeCard from "../../base/RecipeCard";
 import axios from "axios";
 import RecipeCartModal from "../../base/CartRecipeModal";
+import PostModal from "../../base/PostModal";
+import Button from "../../base/Button";
 
 const RecipeLists = ({ isModalOpen, setIsModalOpen }) => {
   const [recipes, setRecipes] = useState([]);
   const [likedRecipes, setLikedRecipes] = useState([]);
   const [shoppingList, setShoppingList] = useState([]);
+  const [isPostModalOpen, setIsPostModalOpen] = useState(false);
   const [recipeContent, setRecipeContent] = useState([
     {
       publisher_id: "",
@@ -22,10 +25,6 @@ const RecipeLists = ({ isModalOpen, setIsModalOpen }) => {
   //const [like, setLike] = useState("Like");
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("id");
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
 
   const fetchRecipes = async () => {
     try {
@@ -184,6 +183,22 @@ const RecipeLists = ({ isModalOpen, setIsModalOpen }) => {
     //console.log(shoppingList);
   };
 
+  // const openModal = () => {
+  //   setIsModalOpen(true);
+  // };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const openPostModal = () => {
+    setIsPostModalOpen(true);
+  };
+
+  const closePostModal = () => {
+    setIsPostModalOpen(false);
+  };
+
   useEffect(() => {
     fetchLikes();
     fetchRecipes();
@@ -211,8 +226,16 @@ const RecipeLists = ({ isModalOpen, setIsModalOpen }) => {
   //console.log(shoppingList);
   return (
     <div className="content">
-      <div className="search">
-        <SearchBar recipes={recipes} />
+      <div className="search-post flex">
+        <div className="search width-90">
+          <SearchBar recipes={recipes} />
+        </div>
+
+        <div className="post width-10 flex center">
+          <div className="post-btn">
+            <Button text={'Post'} onClick={openPostModal} className={'button pointer posting'} />
+          </div>
+        </div>
       </div>
 
       <div className="recipes">
@@ -232,6 +255,12 @@ const RecipeLists = ({ isModalOpen, setIsModalOpen }) => {
             isOpen={isModalOpen}
             onClose={closeModal}
             shoppingList={shoppingList}
+          />
+
+          <PostModal
+            isOpen={isPostModalOpen}
+            onClose={closePostModal}
+            setRecipes={setRecipes}
           />
         </div>
       </div>

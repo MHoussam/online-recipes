@@ -1,13 +1,18 @@
+.search-post {
+    padding-top: 2%;
+}
+
 .search-bar-input {
-    margin-top: 2%;
     padding: .4%;
     border-radius: 5px;
     border-width: 1px;
     position: relative;
+    width: 30%;
 }
 
 .search-bar {
     position: relative;
+    height: 100%;
 }
 
 .search-list {
