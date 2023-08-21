@@ -3,11 +3,11 @@
 }
 
 .search-bar-input {
-    padding: .4%;
     border-radius: 5px;
-    border-width: 1px;
     position: relative;
     width: 30%;
+    padding: 10px;
+    border: 1px solid #ccc;
 }
 
 .search-bar {
