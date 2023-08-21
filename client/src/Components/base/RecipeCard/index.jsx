@@ -16,9 +16,13 @@ const RecipeCardModal = ({ recipe, likedRecipes = null, shoppingList = null, han
     handleShoppingList();
   };
 
-  const onClickCard = () => {
-    localStorage.setItem('recipe_id', recipe.id);
-    navigate(`../Recipe`);
+  const onClickCard = (e) => {
+    const button = e.target.tagName === 'BUTTON';
+
+    if (!button) {
+      localStorage.setItem('recipe_id', recipe.id);
+      navigate(`../Recipe`);
+    }
   };
 
   // console.log('recipe card')

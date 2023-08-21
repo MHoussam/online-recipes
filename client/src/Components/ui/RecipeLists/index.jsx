@@ -95,18 +95,18 @@ const RecipeLists = ({ isModalOpen, setIsModalOpen }) => {
         setShoppingList(allData);
         //console.log(allData[0].recipe.cuisine);
 
-        allData.map((item) => {
-          setRecipeContent((prev) => [
-            ...prev,
-            {
-              publisher_id: item.recipe.publisher_id,
-              name: item.recipe.name,
-              cuisine: item.recipe.cuisine,
-              ingredients: item.recipe.ingredients,
-              image_url: item.recipe.image_url
-            },
-          ]);
-        });
+        // allData.map((item) => {
+        //   setRecipeContent((prev) => [
+        //     ...prev,
+        //     {
+        //       publisher_id: item.recipe.publisher_id,
+        //       name: item.recipe.name,
+        //       cuisine: item.recipe.cuisine,
+        //       ingredients: item.recipe.ingredients,
+        //       image_url: item.recipe.image_url
+        //     },
+        //   ]);
+        // });
         //console.log("fffffetched");
       }
     } catch (error) {
@@ -156,7 +156,7 @@ const RecipeLists = ({ isModalOpen, setIsModalOpen }) => {
        if (allData.message === "Added") {
 
         const updatedShoppingList = [...shoppingList, allData.data[0]];
-          setRecipeContent((prev) => [...prev, updatedShoppingList]);
+          // setRecipeContent((prev) => [...prev, updatedShoppingList]);
 
         //   localStorage.setItem("shoppingList", JSON.stringify(allData));
         // setShoppingList(allData);

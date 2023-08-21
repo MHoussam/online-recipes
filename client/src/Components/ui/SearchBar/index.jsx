@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../../styles/searchbar.css";
 import Image from "../../base/Image";
+import { useNavigate } from "react-router-dom";
 
 const SearchBar = ({ recipes }) => {
   const [query, setQuery] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [showList, setShowList] = useState(false);
+  const navigate = useNavigate();
 
   const handleSearch = (query) => {
     const filtered = recipes.filter(
@@ -41,7 +43,12 @@ const SearchBar = ({ recipes }) => {
     }
   };
 
-  React.useEffect(() => {
+  const onClickSearch = (recipeId) => {
+    localStorage.setItem('recipe_id', recipeId);
+      navigate(`../Recipe`);
+  };
+
+  useEffect(() => {
     document.addEventListener("click", handleClickOutside);
     return () => {
       document.removeEventListener("click", handleClickOutside);
@@ -62,7 +69,7 @@ const SearchBar = ({ recipes }) => {
         <div className="search-bar-list width-100 flex column center">
           <ul className="search-list flex column">
             {filteredUsers.map((recipe) => (
-              <li key={recipe.id}>
+              <li key={recipe.id} onClick={() => onClickSearch(recipe.id)}>
                 <div className="search-list-li flex pointer">
                   <div className="photo width-20">
                     <Image
