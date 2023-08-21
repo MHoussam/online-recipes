@@ -3,8 +3,9 @@ import Button from "../Button";
 import axios from "axios";
 import "../../../styles/postmodal.css";
 
-const PostModal = ({ isOpen, onClose, setRecipes }) => {
+const PostModal = ({ isOpen, onClose, recipes, setRecipes }) => {
   const token = localStorage.getItem("token");
+  const user_id = localStorage.getItem("id");
   const [data, setData] = useState({
     name: "",
     cuisine: "",
@@ -30,26 +31,36 @@ const PostModal = ({ isOpen, onClose, setRecipes }) => {
 
   const handlePost = async (e) => {
 
+    console.log('images/' + data.image.name)
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("cuisine", data.cuisine);
     formData.append("ingredients", data.ingredients);
-    formData.append("image", data.image);
+    formData.append("image", 'images/' + data.image.name);
     formData.append("token", token);
+    formData.append("user_id", user_id);
+    //console.log(formData['name'])
 
     try {
-      //const response = await axios.post("https://127.0.0.1:800/api/post", formData);
 
-      //if (response.message === "Posted") {
-      console.log("data:");
-      console.log(data);
-      setData({ name: "", cuisine: "", ingredients: "", image: null });
-      //} else {
-      //console.log("Didn't Post");
-      //}
+        //console.log(formData)
+      const response = await axios.post("http://127.0.0.1:8000/api/post", formData);
+      console.log(response.data)
+      console.log(response.data.data)
+console.log(response.data.message)
+      if (response.data.message === "Posted") {
+        console.log("data:");
+        console.log(data);
+        const updatedRecipes = [...recipes, response.data.data];
+        localStorage.setItem("recipes", JSON.stringify(updatedRecipes));
+        setRecipes(updatedRecipes);
+      } else {
+        console.log("Didn't Post");
+      }
     } catch (error) {
       console.log(error);
     }
+    setData({ name: "", cuisine: "", ingredients: "", image: null });
   };
 
   return (

@@ -112,7 +112,7 @@ class UserController extends Controller
         $posts->name = $request->name;
         $posts->cuisine = $request->cuisine;
         $posts->ingredients = $request->ingredients;
-        $posts->image_url = $request->image_url;
+        $posts->image_url = $request->image;;
         $posts->likes = 0;
         $posts->save();
     

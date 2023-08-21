@@ -260,6 +260,7 @@ const RecipeLists = ({ isModalOpen, setIsModalOpen }) => {
           <PostModal
             isOpen={isPostModalOpen}
             onClose={closePostModal}
+            recipes={recipes}
             setRecipes={setRecipes}
           />
         </div>
