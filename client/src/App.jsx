@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes, createBrowserRouter } from 'react-router-
 import Login from './Pages/Login';
 import Home from './Pages/Home';
 import Register from './Pages/Register';
+import RecipeDetails from './Components/ui/RecipeDetails';
 
 function App() {
   return (
@@ -11,9 +12,9 @@ function App() {
       <Routes>
         <Route index element={<Login />} />
         <Route path="/Home" element={<Home />} />
+        <Route path="/Recipe" element={<RecipeDetails />} />
         <Route path="/Register" element={<Register />} />
-        {/* <Route path="/Feeds" element={<Feeds />} /> */}
-        {/* <Route path='*' element={<h1>404</h1>} /> */}
+        <Route path='*' element={<h1>404</h1>} />
       </Routes>
     </BrowserRouter>
   );

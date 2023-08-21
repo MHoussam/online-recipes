@@ -251,6 +251,7 @@ const RecipeLists = ({ isModalOpen, setIsModalOpen }) => {
               />
             </div>
           ))}
+          
           <RecipeCartModal
             isOpen={isModalOpen}
             onClose={closeModal}
