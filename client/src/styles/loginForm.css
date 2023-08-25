@@ -1,69 +1,73 @@
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f4f4f4;
-}
+.contactForm_container{
+    margin-top: 5%;
+    row-gap: 15px;
+    width: 45%;
+    padding: 2%;
+    border-radius: 10px;
+    background-color: rgb(214, 214, 214);
+  }
+  
+  .center {
+    justify-content: center;
+  }
+  
+  .flex {
+    display: flex;
+  }
+  
+  .column {
+    flex-direction: column;
+  }
+  
+  .contact-container {
+    margin-left: 4%;
+  }
+  
+  .contact-info {
+    column-gap: 60px;
+  }
+  
+  .title {
+    justify-content: flex-end;
+    margin-left: 5%;
+  }
+  
+  .title-contact, .add-container  {
+    width: 50%;
+  }
+  
+  .header {
+    margin-left: 5%;
+  }
+  
+  .names, .numbers {
+    width: 100%;  
+    column-gap: 15px;
+  }
+  
+  .width-50 {
+    width: 50%
+  }
+  
+  .width-33 {
+    width: 33.33%
+  }
+  
+  .add-contact-btn {
+    padding: 2%;
+    border-radius: 10px;
+    border-width: 1px;
+  }
+  
+  .padding {
+    padding: 3%;
+    border-radius: 5px;
+  }
 
-.form-container {
-  background-color: #ffffff;
-  padding: 20px;
-  width: 300px;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+  .logoPhoto{
+    width: 50%;
+  }
 
-.logoPhoto {
-  width: 150px;
-  margin-top: 20px;
-}
-
-.input {
-  margin-bottom: 15px;
-}
-
-.fname-input, .lname-input, .email-input, .password-input {
-  width: 90%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
-.login {
-  text-align: center;
-}
-
-.login-btn {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.login-btn:hover {
-  background-color: #0056b3;
-}
-
-.register-link {
-  text-align: center;
-  margin-top: 10px;
-}
-
-.register-link a {
-  text-decoration: none;
-  color: #007bff;
-  cursor: pointer;
-}
-
-.register-link a:hover {
-  text-decoration: underline;
-}
+  .login-link>a {
+    text-decoration: none;
+  }

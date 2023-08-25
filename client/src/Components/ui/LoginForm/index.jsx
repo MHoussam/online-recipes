@@ -4,84 +4,71 @@ import "../../../styles/loginForm.css";
 import "../../../styles/utilities.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Image from "../../base/Image";
-import logoImage from "../../../assets/images/tastybites.png";
-import Button from "../../base/Button";
 
-const LoginForm = ({ setUser }) => {
+const LoginForm = ({setUser}) =>{
   const [data, setData] = useState({
-    email: "",
-    password: "",
-  });
+    email: '',
+    password: ''
+  })
 
-  const handleDataChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
-  };
+  const handleDataChange = (e)=>{
+    setData({...data, [e.target.name]: e.target.value})
+  }
 
-  const handleSubmit = async () => {
-    try {
-      const response = await axios.post("http://localhost:8000/api/login", data);
-      console.log(response.data);
-      localStorage.setItem("id", response.data.data.id);
-      localStorage.setItem("first_name", response.data.data.first_name);
-      localStorage.setItem("token", response.data.data.token);
-      setData({ email: "", password: "" });
-      
-      if (response.data.token !== null) {
+  const handleSubmit = async ()=>{
+    try{
+      const response = await axios.post("http://localhost:8000/api/login", data)
+      console.log(response.data)
+      localStorage.setItem('id', response.data.data.id)
+      localStorage.setItem('first_name', response.data.data.first_name)      
+      localStorage.setItem('token', response.data.data.token)
+      setData({email: '', password: ''})
+      if(response.data.token !== null) {
         navigate("/Home");
       }
-    } catch (e) {
-      console.log(e);
+    }catch(e){
+      console.log(e)
     }
-  };
+  }
 
-  const handleRegister = () => {
+  const handleRegister = ()=>{
     navigate("/Register");
-  };
+  }
 
   const navigate = useNavigate();
 
   return (
-    <div>
-      <div className="login-container">
-        <div className="form-container">
-        <div className="logo flex center">
-          <Image src={logoImage} alt="Tasty Bites Logo"className="logoPhoto flex column center" />
-        </div>
-          <h2>Login</h2>
-          <div className="input">
-            <label>Email:</label>
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={data.email}
-              className="email-input"
-              onChange={handleDataChange}
-            />
+    <>
+      <div className="addForm flex center">
+        <div className="contactForm_container flex column">
+          <div className="logo flex center">
           </div>
-          <div className="input">
-            <label>Password:</label>
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={data.password}
-              className="password-input"
-              onChange={handleDataChange}
-            />
+          <div className="names column flex center">
+            <div className="fname flex column width-50">
+              <label for="first_name"><span className="bold">Email:</span></label>
+              <input name="email" className="first_name padding" placeholder="Email" value={data.first_name} onChange={handleDataChange}/>
+            </div>
+            <div className="lname flex column width-50">
+              <label for="last_name"><span className="bold">Password</span></label>
+              <input name="password" className="padding" placeholder="Password" type="password" value={data.last_name} onChange={handleDataChange}/>
+            </div>
           </div>
-          <div className="login">
-            <Button text={'Login'} className="login-btn bold" onClick={handleSubmit} />
-          </div>
-          <div className="register-link">
-            Don't have an account?
-            <a onClick={handleRegister}> Register</a>
+          
+          <div className="btn flex column">
+            <div className="flex center">
+              <button className="add-contact-btn bold pointer" onClick={handleSubmit}>Login</button>
+            </div>
+
+            <br/>
+            
+            <div className="flex center">
+            <div>Don't have an account? <a className="login-link" onClick={handleRegister}>Register</a></div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-};
+  </>
+  )
+}
 
 export default LoginForm;
